@@ -1,0 +1,19 @@
+{
+  "name": "sim-reader",
+  "version": "1.0.0",
+  "description": "An elegant, responsive web reader to browse and inspect mystery stories generated via the OpenAI API.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "start": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "reader",
+    "openai",
+    "gpt-5",
+    "mystery-stories",
+    "generations-browser"
+  ],
+  "author": "mwilkens",
+  "license": "MIT"
+}

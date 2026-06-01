@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sim Reader | Literary Generations Browser</title>
+    <meta name="description" content="An elegant, responsive web reader to browse and inspect mystery stories generated via the OpenAI API. Featuring direct navigation, random story selection, and full metadata visualization.">
+    
+    <!-- Google Fonts for exquisite readability and UI styling -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-dark">
+    
+    <!-- Elegant Fullscreen Loading Splash Screen -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9 6h6M9 10h6" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h1 class="loading-title">The Sim Reader</h1>
+            <p class="loading-subtitle">Literary Generations Browser</p>
+            <div class="loading-bar-container">
+                <div id="loading-bar" class="loading-bar"></div>
+            </div>
+            <p id="loading-status" class="loading-status">Connecting to repository...</p>
+            <div id="loading-quote" class="loading-quote">"The first thing I noticed wasn’t the ruin. It was the smell..."</div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        
+        <!-- Premium Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                </div>
+                <div class="title-group">
+                    <h2>The Sim Reader</h2>
+                    <div class="genre-selector-container">
+                        <select id="genre-select" class="genre-select" title="Choose Literary Genre">
+                            <option value="my">Mystery Collection</option>
+                            <option value="sf">Sci-Fi Collection</option>
+                            <option value="pw">Literary Collection</option>
+                        </select>
+                        <div class="select-arrow">
+                            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <!-- Typography Adjusters -->
+                <div class="control-group text-controls">
+                    <button id="btn-font-toggle" class="icon-button" title="Toggle Serif/Sans-Serif" aria-label="Toggle Font Family">
+                        <span class="font-indicator lora-font">Ag</span>
+                    </button>
+                    
+                    <div class="size-selectors">
+                        <button id="btn-size-sm" class="size-button" title="Small Text">A</button>
+                        <button id="btn-size-md" class="size-button active" title="Medium Text">A</button>
+                        <button id="btn-size-lg" class="size-button" title="Large Text">A</button>
+                    </div>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button id="btn-theme-toggle" class="icon-button" title="Toggle Theme" aria-label="Toggle Theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+
+                <!-- GitHub Repository Link -->
+                <a href="https://github.com/wilkens/literary-generation/" target="_blank" rel="noopener" class="icon-button" title="View Source on GitHub" aria-label="View Source on GitHub">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                    </svg>
+                </a>
+
+                <!-- Metadata Inspector Trigger -->
+                <button id="btn-metadata-toggle" class="primary-button" title="Inspect Story Metadata">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="16" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    <span>Inspect Metadata</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Reader Content -->
+        <main class="reader-viewport">
+            <article class="story-container lora-font size-md" id="story-article">
+                <!-- Dynamic content injected here by app.js -->
+                <div class="story-placeholder">
+                    <!-- Elegant skeleton load state -->
+                    <div class="skeleton skeleton-title"></div>
+                    <div class="skeleton skeleton-para"></div>
+                    <div class="skeleton skeleton-para"></div>
+                    <div class="skeleton skeleton-para"></div>
+                </div>
+            </article>
+        </main>
+
+        <!-- Dynamic Navigation Footer Controls -->
+        <footer class="navigation-controls">
+            <div class="controls-panel">
+                <button id="btn-prev" class="nav-button" title="Previous Story">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"/>
+                        <polyline points="12 19 5 12 12 5"/>
+                    </svg>
+                    <span>Previous</span>
+                </button>
+
+                <div class="jump-container">
+                    <label for="story-index-input">Story</label>
+                    <input type="number" id="story-index-input" class="story-index-input" min="1" max="450" value="1" title="Enter story index (1-450)">
+                    <span class="total-count">of <span id="span-total-count">450</span></span>
+                    <button id="btn-jump" class="jump-button" title="Jump to Story">Go</button>
+                </div>
+
+                <div class="right-buttons">
+                    <button id="btn-random" class="nav-button shuffle-button" title="Shuffle Random Story">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 3 21 3 21 8"/>
+                            <line x1="4" y1="20" x2="21" y2="3"/>
+                            <polyline points="21 16 21 21 16 21"/>
+                            <line x1="15" y1="15" x2="21" y2="21"/>
+                            <line x1="4" y1="4" x2="9" y2="9"/>
+                        </svg>
+                        <span>Random</span>
+                    </button>
+
+                    <button id="btn-next" class="nav-button primary-nav" title="Next Story">
+                        <span>Next</span>
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Glassmorphic Metadata Drawer (Aside) -->
+        <aside id="metadata-drawer" class="metadata-drawer">
+            <div class="drawer-backdrop" id="drawer-backdrop"></div>
+            <div class="drawer-content">
+                <header class="drawer-header">
+                    <h3>Generation Info</h3>
+                    <button id="btn-close-drawer" class="close-button" aria-label="Close Drawer" title="Close Metadata Panel">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </header>
+
+                <div class="drawer-body">
+                    <!-- Technical Parameters -->
+                    <section class="meta-section">
+                        <h4>Technical Specifications</h4>
+                        <div class="info-table">
+                            <div class="info-row">
+                                <span class="info-label">Model</span>
+                                <span class="info-val" id="meta-model">gpt-5-2025-08-07</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Generated On</span>
+                                <span class="info-val" id="meta-date">June 1, 2026</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Source Data</span>
+                                <span class="info-val"><a href="https://github.com/wilkens/literary-generation/" target="_blank" rel="noopener" class="subtle-link">GitHub Repository</a></span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Token Usage Metrics Visualization -->
+                    <section class="meta-section">
+                        <h4>Token Metrics</h4>
+                        <div class="token-container">
+                            <div class="total-tokens-box">
+                                <span class="total-tokens-num" id="token-total">17,136</span>
+                                <span class="total-tokens-lbl">Total Tokens Consumed</span>
+                            </div>
+                            
+                            <div class="bar-chart-container">
+                                <!-- Prompt / Input Tokens -->
+                                <div class="chart-row">
+                                    <div class="chart-label-group">
+                                        <span class="chart-title">Prompt (Input) Tokens</span>
+                                        <span class="chart-count" id="token-input">545</span>
+                                    </div>
+                                    <div class="progress-track">
+                                        <div id="bar-input" class="progress-bar bar-prompt" style="width: 3%;"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Generation / Output Tokens -->
+                                <div class="chart-row">
+                                    <div class="chart-label-group">
+                                        <span class="chart-title">Story (Output) Tokens</span>
+                                        <span class="chart-count" id="token-output">14,159</span>
+                                    </div>
+                                    <div class="progress-track">
+                                        <div id="bar-output" class="progress-bar bar-story" style="width: 82%;"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Reasoning / Thinking Tokens -->
+                                <div class="chart-row">
+                                    <div class="chart-label-group">
+                                        <span class="chart-title">Reasoning Tokens</span>
+                                        <span class="chart-count" id="token-reasoning">2,432</span>
+                                    </div>
+                                    <div class="progress-track">
+                                        <div id="bar-reasoning" class="progress-bar bar-thinking" style="width: 15%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- User Prompt Block -->
+                    <section class="meta-section full-grow">
+                        <div class="section-title-action">
+                            <h4>User Prompt</h4>
+                            <button id="btn-copy-user-prompt" class="action-link" title="Copy user prompt to clipboard">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                                <span>Copy Prompt</span>
+                            </button>
+                        </div>
+                        <div class="prompt-box user-prompt-box">
+                            <div id="meta-user-prompt" class="user-prompt-content">User prompt will load shortly...</div>
+                        </div>
+                    </section>
+
+                    <!-- System Instructions Block -->
+                    <section class="meta-section full-grow">
+                        <div class="section-title-action">
+                            <h4>System Instructions</h4>
+                            <button id="btn-copy-system-prompt" class="action-link" title="Copy system instructions to clipboard">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                                <span>Copy Instructions</span>
+                            </button>
+                        </div>
+                        <div class="prompt-box system-prompt-box">
+                            <div id="meta-system-prompt" class="system-prompt-content">Instructions will load shortly...</div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Custom Toast Notification -->
+        <div id="toast" class="toast">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span id="toast-message">Prompt Copied!</span>
+        </div>
+
+    </div>
+
+    <!-- Core Javascript Application Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
