@@ -107,6 +107,16 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+.app-container {
+    height: 100vh;
+    height: -webkit-fill-available;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
 /* Scrollbar Customization */
 ::-webkit-scrollbar {
     width: 8px;
@@ -440,9 +450,8 @@ body.theme-light .moon-icon { display: block; }
 .reader-viewport {
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     padding: 40px 24px var(--footer-height) 24px;
-    display: flex;
-    justify-content: center;
 }
 
 .story-container {
@@ -1042,6 +1051,21 @@ body.theme-light .moon-icon { display: block; }
         display: none; /* Hide badge in header on narrow screens */
     }
     
+    .logo-mark {
+        display: none; /* Hide logo to make space on tablet/mobile */
+    }
+    
+    #btn-metadata-toggle span {
+        display: none; /* Hide text on metadata button */
+    }
+    
+    #btn-metadata-toggle {
+        padding: 8px;
+        width: 36px;
+        height: 36px;
+        justify-content: center;
+    }
+    
     .reader-viewport {
         padding: 24px 16px var(--footer-height) 16px;
     }
@@ -1072,6 +1096,10 @@ body.theme-light .moon-icon { display: block; }
 }
 
 @media (max-width: 480px) {
+    .title-group h2 {
+        display: none; /* Hide text title completely on mobile for max select room */
+    }
+    
     .text-controls {
         display: none; /* Hide text sizing to prevent header overcrowding */
     }

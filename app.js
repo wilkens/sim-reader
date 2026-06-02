@@ -12,7 +12,7 @@ const state = {
     stories: [],
     promptsMap: new Map(), // Maps custom_id -> User input prompt
     currentIndex: 0,
-    theme: 'dark', // 'dark' | 'light'
+    theme: 'light', // 'dark' | 'light'
     fontFamily: 'serif', // 'serif' | 'sans'
     fontSize: 'md', // 'sm' | 'md' | 'lg'
 };
