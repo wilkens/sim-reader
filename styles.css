@@ -1036,7 +1036,7 @@ body.theme-light .moon-icon { display: block; }
 @media (max-width: 768px) {
     :root {
         --header-height: 60px;
-        --footer-height: 140px; /* Expand for stacked items */
+        --footer-height: 64px; /* Highly compact single-line footer saving 76px of vertical space! */
     }
     
     .app-header {
@@ -1070,24 +1070,56 @@ body.theme-light .moon-icon { display: block; }
         padding: 24px 16px var(--footer-height) 16px;
     }
     
-    /* Sticky controls rearrange for smaller viewport height/width */
+    /* Highly compact, single-line horizontal controls */
     .controls-panel {
-        flex-direction: column;
-        gap: 16px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .navigation-controls {
+        padding: 0 16px;
+        height: var(--footer-height);
     }
     
     .jump-container {
-        order: 1;
-        width: 100%;
+        font-size: 0.82rem;
+        gap: 4px;
+    }
+
+    .jump-container label {
+        display: none; /* Hide label "Story" to maximize space on mobile */
+    }
+    
+    .story-index-input {
+        width: 50px;
+        height: 32px;
+        font-size: 0.85rem;
+    }
+
+    .jump-button {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+
+    .total-count {
+        margin-right: 2px;
+    }
+    
+    .nav-button span {
+        display: none; /* Hide button text to make it extremely compact icon buttons */
+    }
+    
+    .nav-button {
+        padding: 8px;
+        width: 36px;
+        height: 36px;
         justify-content: center;
     }
-    
-    .nav-button:first-child {
-        order: 2;
-    }
-    
+
     .right-buttons {
-        order: 3;
+        gap: 8px;
     }
     
     .drawer-content {
@@ -1102,23 +1134,6 @@ body.theme-light .moon-icon { display: block; }
     
     .text-controls {
         display: none; /* Hide text sizing to prevent header overcrowding */
-    }
-    
-    .right-buttons {
-        width: 100%;
-        justify-content: space-between;
-    }
-    
-    .nav-button span {
-        display: none; /* Hide button text to make it extremely compact */
-    }
-    
-    .nav-button {
-        padding: 10px;
-    }
-    
-    .jump-container {
-        font-size: 0.8rem;
     }
 }
 
